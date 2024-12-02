@@ -1,0 +1,2 @@
+CBMC version 6.4.0 (cbmc-6.4.0) 64-bit arm64 macos
+Type-checking t_string
