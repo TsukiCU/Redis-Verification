@@ -2,5 +2,8 @@
 test/
 build/
 
+# Mac system dump
+.DS_Store
+
 # Binary
 test_redis
