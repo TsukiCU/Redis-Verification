@@ -1,0 +1,43 @@
+###
+    cbmc src/t_string.c --function setCommand -Ideps/lua/src -Ideps/hdr_histogram --bounds-check --pointer-check --trace --object-bits 16
+
+
+###
+    cbmc src/t_string.c --function setCommand -Ideps/lua/src -Ideps/hdr_histogram  --pointer-check --trace --object-bits 16
+
+###
+    cbmc src/t_string.c --function setGenericCommand -Ideps/lua/src -Ideps/hdr_histogram  --pointer-check --trace --object-bits 16
+
+###getExpireMillisecondsOrReply 
+
+    cbmc src/t_string.c --function getExpireMillisecondsOrReply -Ideps/lua/src -Ideps/hdr_histogram --bounds-check --pointer-check --trace --object-bits 16 > cbmc_test/getExpireMillisecondsOrReply_test.log 2>&1
+
+    ####
+    cbmc src/t_string.c --function getExpireMillisecondsOrReply -Ideps/lua/src -Ideps/hdr_histogram -Isrc/object.c --bounds-check --pointer-check --trace --object-bits 16 > cbmc_test/getExpireMillisecondsOrReply_test.log 2>&1 
+
+    #####success
+    cbmc src/t_string.c src/object.c src/debug.c --function getExpireMillisecondsOrReply -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --bounds-check --pointer-check --trace --object-bits 16 > cbmc_test/getExpireMillisecondsOrReply_test_3.log 2>&1
+
+
+###getCommand
+    cbmc src/t_string.c --function getCommand -Ideps/lua/src -Ideps/hdr_histogram  --pointer-check --trace --object-bits 16
+
+###bugReportStart
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function bugReportStart -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --bounds-check --pointer-check --trace --object-bits 16  > cbmc_test/debug.log 2>&1
+
+###parseExtendedStringArgumentsOrReply
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function parseExtendedStringArgumentsOrReply -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --bounds-check --pointer-check --trace --object-bits 16
+
+
+###getsetCommand   stuck
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function getsetCommand -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --bounds-check --pointer-check --trace --object-bits 16
+
+###incrDecrCommand  stuck
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function incrDecrCommand --verbosity 10 -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --bounds-check --pointer-check --trace --object-bits 16
+
+    #show goto functions
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function incrDecrCommand --show-goto-functions -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv > cbmc_test/incrDecrCommand_goto_functions.log 2>&1
+
+    #using unwing
+    cbmc src/t_string.c src/object.c src/debug.c src/server.c --function incrDecrCommand -Ideps/lua/src -Ideps/hdr_histogram -Ideps/fpconv --unwind 4 --no-unwinding-assertions --bounds-check --pointer-check --trace --object-bits 16
+
