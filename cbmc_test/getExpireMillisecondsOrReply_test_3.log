@@ -1,0 +1,10 @@
+CBMC version 6.4.0 (cbmc-6.4.0) 64-bit arm64 macos
+Type-checking debug
+Type-checking object
+Type-checking t_string
+Generating GOTO Program
+Adding CPROVER library (arm64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Starting Bounded Model Checking
+atomic sections differ across branches (at: file src/debug.c line 1192 function bugReportStart)
