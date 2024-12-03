@@ -1,0 +1,45 @@
+I am recording some of the false alarms in debug.log.
+As the debug.log file states, there are two places where cbmc finds suspicious.
+
+##################################################################
+
+[ CLEAR ]
+
+Violated property:
+  file src/server.c function serverLogRaw line 100 thread 0
+  dereference failure: pointer NULL in server.logfile[(signed long int)0]
+  !(__CPROVER_POINTER_OBJECT(((char *)NULL)) == __CPROVER_POINTER_OBJECT(server.logfile))
+
+- Analysis:
+logfile is never going to be null as the following calling chain shows:
+main(in server.c) -> initServerConfig -> initConfigValues -> static_configs -> createStringConfig, 
+which can then be inferred that logfile field is set to "" upon initialization.
+
+- What's next:
+Add the following flags when verifying.
+__CPROVER_assume(server.logfile != NULL);
+__CPROVER_assume(__CPROVER_OBJECT_SIZE(server.logfile) >= 1);
+
+or add some global assertion such as the following to locate issues more aggresively.
+__CPROVER_assert(server.logfile != NULL, "server.logfile should never be NULL");
+
+This is in general correct and not worth further exploring.
+
+##################################################################
+
+[ UNCLEAR ]
+
+Violated property:
+  file <builtin-library-_fopen> function _fopen line 24 thread 0
+  dereference failure: pointer NULL in *filename
+  !(__CPROVER_POINTER_OBJECT(((const char *)NULL)) == __CPROVER_POINTER_OBJECT(filename))
+
+- Analysis:
+  It's not possible to directly locate where cbmc thinks a filename could be NULL when trying
+  to perform "open" by simply looking at the message above.
+  
+  However, as cmbc tends to be over-conservative about everything, I suppose we could let it slide.
+
+  A more rigorous way will be dive into the trace for this function which is almost 4k lines to locate what's causing the problem.
+  That's a total PITA and I have zero interest in doing so.
+
